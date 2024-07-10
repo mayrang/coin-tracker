@@ -2,25 +2,7 @@ import React, { useEffect, useState } from "react";
 import { CoinInterface } from "../model/data";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-
-const Container = styled.div`
-  padding: 0 20px;
-  max-width: 480px;
-  margin: 0 auto;
-`;
-
-const Header = styled.div`
-  font-size: 48px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 10dvh;
-`;
-
-const Title = styled.h1`
-  color: ${(props) => props.theme.accentColor};
-  font-weight: 800;
-`;
+import { Container, Header, Loading, Title } from "../styles/style";
 
 const CoinList = styled.ul`
   margin: 12px 0;
@@ -33,7 +15,9 @@ const Coin = styled.li`
 
   margin: 16px 0;
   a {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 8px;
     padding: 24px;
   }
   &:hover {
@@ -43,10 +27,9 @@ const Coin = styled.li`
   }
 `;
 
-const Loading = styled.div`
-  font-size: 24px;
-  text-align: center;
-  padding: 24px 0;
+const Img = styled.img`
+  width: 35px;
+  height: 35px;
 `;
 
 export default function Coins() {
@@ -75,7 +58,13 @@ export default function Coins() {
         <CoinList>
           {coins.map((coin) => (
             <Coin key={coin.id}>
-              <Link to={`/${coin.id}`}>{coin.name} &rarr;</Link>
+              <Link state={{ name: coin.name }} to={`/${coin.id}`}>
+                <Img
+                  src={`https://cryptoicon-api.pages.dev/api/icon/${coin.symbol.toLowerCase()}`}
+                  alt={`${coin.name} image`}
+                />
+                <div>{coin.name} &rarr;</div>
+              </Link>
             </Coin>
           ))}
         </CoinList>
