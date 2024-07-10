@@ -1,7 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
-  @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap');
+ @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap');
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -50,9 +50,11 @@ table {
 }
 a {
   text-decoration: none;
+	color: inherit;
 }
 body {
-   font-family: "Source Code Pro", monospace;
+	font-family: "Source Sans 3", sans-serif;
+	font-weight: 500;
 	 color: ${(props) => props.theme.textColor};
 	 background-color: ${(props) => props.theme.bgColor};
 }
