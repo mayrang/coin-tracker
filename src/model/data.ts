@@ -1,4 +1,4 @@
-export interface CoinInterface {
+export interface ICoins {
   id: string;
   name: string;
   symbol: string;
@@ -30,7 +30,7 @@ export interface CoinInfo {
   last_data_at: string;
 }
 
-export interface CoinPriceInfo {
+export interface CoinTickers {
   id: string;
   name: string;
   symbol: string;
@@ -61,4 +61,15 @@ export interface CoinPriceInfo {
       volume_24h_change_24h: number;
     };
   };
+}
+
+export interface ICoinHistorical {
+  close: string;
+  high: string;
+  low: string;
+  market_cap: number;
+  open: string;
+  time_close: number;
+  time_open: number;
+  volume: string;
 }

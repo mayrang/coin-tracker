@@ -1,8 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Container, Header, Loading, Title } from "../styles/style";
 import { Link, Outlet, useLocation, useMatch, useParams } from "react-router-dom";
-import { CoinInfo, CoinPriceInfo } from "../model/data";
+
 import styled from "styled-components";
+import { useQuery } from "@tanstack/react-query";
+import { CoinInfo, CoinTickers } from "../model/data";
+import { fetchCoinInfo, fetchCoinTickers } from "../api/coin";
+import { Helmet } from "react-helmet-async";
 
 type IParams = {
   coinId: string;
@@ -60,29 +64,32 @@ const TabItem = styled.div<{ isActive: boolean }>`
 `;
 
 export default function Coin() {
-  const [loading, setLoading] = useState(true);
   const { coinId } = useParams() as IParams;
   const location = useLocation();
 
   const state = location.state as IState | null;
-  const [info, setInfo] = useState<CoinInfo>();
-  const [priceInfo, setPriceInfo] = useState<CoinPriceInfo>();
+
   const priceMatch = useMatch("/:coinId/price");
   const chartMatch = useMatch("/:coinId/chart");
-  useEffect(() => {
-    (async () => {
-      const infoData = await (await fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)).json();
-      const priceData = await (await fetch(`https://api.coinpaprika.com/v1/tickers/${coinId}`)).json();
-      setInfo(infoData);
-      setPriceInfo(priceData);
-      setLoading(false);
-    })();
-  }, []);
+
+  const { data: infoData, isLoading: infoLoading } = useQuery<CoinInfo>({
+    queryKey: ["coin", "info", coinId],
+    queryFn: () => fetchCoinInfo(coinId),
+    refetchInterval: 1000 * 60 * 30,
+  });
+  const { data: tickersData, isLoading: tickersLoading } = useQuery<CoinTickers>({
+    queryKey: ["coin", "tickers", coinId],
+    queryFn: () => fetchCoinTickers(coinId),
+  });
+  const loading = tickersLoading || infoLoading;
 
   return (
     <Container>
+      <Helmet>
+        <title>{state?.name ? state.name : loading ? "lodaing.." : infoData?.name}</title>
+      </Helmet>
       <Header>
-        <Title>{state?.name ? state.name : loading ? "lodaing.." : info?.name}</Title>
+        <Title>{state?.name ? state.name : loading ? "lodaing.." : infoData?.name}</Title>
       </Header>
       {loading ? (
         <Loading>loading.....</Loading>
@@ -91,36 +98,36 @@ export default function Coin() {
           <Overview>
             <OverviewItem>
               <span>rank:</span>
-              <span>{info?.rank}</span>
+              <span>{infoData?.rank}</span>
             </OverviewItem>
             <OverviewItem>
               <span>symbol:</span>
-              <span>{info?.symbol}</span>
+              <span>{infoData?.symbol}</span>
             </OverviewItem>
             <OverviewItem>
-              <span>source:</span>
-              <span>{info?.open_source ? "true" : "false"}</span>
+              <span>price:</span>
+              <span>{tickersData?.quotes.USD.price.toFixed(3)}</span>
             </OverviewItem>
           </Overview>
-          <Description>{info?.description}</Description>
+          <Description>{infoData?.description}</Description>
           <Overview>
             <OverviewItem>
               <span>total supply:</span>
-              <span>{priceInfo?.total_supply}</span>
+              <span>{tickersData?.total_supply}</span>
             </OverviewItem>
             <OverviewItem>
               <span>max supply:</span>
-              <span>{priceInfo?.max_supply}</span>
+              <span>{tickersData?.max_supply}</span>
             </OverviewItem>
           </Overview>
           <Tab>
             <TabItem isActive={priceMatch !== null}>
-              <Link to={"price"} state={{ name: info?.name }}>
+              <Link to={"price"} state={{ name: infoData?.name }}>
                 Price
               </Link>
             </TabItem>
             <TabItem isActive={chartMatch !== null}>
-              <Link to={"chart"} state={{ name: info?.name }}>
+              <Link to={"chart"} state={{ name: infoData?.name }}>
                 Chart
               </Link>
             </TabItem>
