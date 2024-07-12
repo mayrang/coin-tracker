@@ -54,7 +54,7 @@ export default function Coins() {
         <CoinList>
           {coins?.slice(0, 100).map((coin) => (
             <Coin key={coin.id}>
-              <Link state={{ name: coin.name }} to={`/${coin.id}`}>
+              <Link state={{ name: coin.name }} to={`${coin.id}`}>
                 <Img
                   src={`https://cryptoicon-api.pages.dev/api/icon/${coin.symbol.toLowerCase()}`}
                   alt={`${coin.name} image`}

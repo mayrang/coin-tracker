@@ -4,11 +4,13 @@ import Coins from "./Coins";
 import Coin from "./Coin";
 import Price from "./Price";
 import Chart from "./Chart";
+import NotFound from "./NotFound";
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: `${process.env.PUBLIC_URL}/`,
     element: <Root />,
+    errorElement: <NotFound />,
     children: [
       {
         path: "",
@@ -27,6 +29,7 @@ const router = createBrowserRouter([
             element: <Chart />,
           },
         ],
+        errorElement: <NotFound />,
       },
     ],
   },
