@@ -20,56 +20,35 @@ export default function Chart() {
     queryFn: () => fetchCoinHistorical(coinId),
     refetchInterval: 1000 * 60 * 30,
   });
-  console.log(data, error);
+  const chartData = data.map((item) => ({
+    x: new Date(item.time_close * 1000).toUTCString(),
+    y: [item.open, item.high, item.low, item.close],
+  }));
+  console.log(chartData);
   return (
     <div>
       {isLoading || error ? (
         <Loading>loading...</Loading>
       ) : (
         <ApexCharts
-          type="line"
+          type="candlestick"
           series={[
             {
-              name: "Price",
-              data: data?.map((item) => Number(item.close)),
+              data: chartData,
             },
           ]}
           options={{
             chart: {
+              background: "transparents",
               height: 300,
               width: 500,
-              background: "transparents",
               toolbar: {
                 show: false,
               },
             },
-            theme: {
-              mode: "dark",
-            },
-            fill: {
-              type: "gradient",
-              gradient: {
-                gradientToColors: theme === "light" ? ["#f1c40f"] : ["#2ecc71"],
-                stops: [0, 100],
-              },
-            },
-            stroke: {
-              width: 4,
-              curve: "smooth",
-            },
-            tooltip: {
-              x: {
-                format: "dd 'MMM",
-              },
-              y: {
-                formatter: (value) => `$${value.toFixed(3)}`,
-              },
-            },
-            colors: theme === "light" ? ["#e74c3c"] : ["#3498db"],
-            grid: { show: false },
             xaxis: {
               labels: {
-                show: false,
+                show: true,
               },
               axisBorder: {
                 show: false,
@@ -82,6 +61,18 @@ export default function Chart() {
             },
             yaxis: {
               show: false,
+            },
+            grid: { show: false },
+            tooltip: {
+              x: {
+                format: "dd 'MMM",
+              },
+              y: {
+                formatter: (value) => `$${value.toFixed(3)}`,
+              },
+            },
+            theme: {
+              mode: theme,
             },
           }}
         />
