@@ -67,9 +67,6 @@ export default function Chart() {
               x: {
                 format: "dd 'MMM",
               },
-              y: {
-                formatter: (value) => `$${value.toFixed(3)}`,
-              },
             },
             theme: {
               mode: theme,
