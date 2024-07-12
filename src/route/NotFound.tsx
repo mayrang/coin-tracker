@@ -27,7 +27,7 @@ export default function NotFound() {
   return (
     <Container>
       <Title>NOT FOUND PAGE</Title>
-      <Link to={`${process.env.PUBLIC_URL}`}>홈으로 가기 &rarr;</Link>
+      <Link to={"/"}>홈으로 가기 &rarr;</Link>
     </Container>
   );
 }
