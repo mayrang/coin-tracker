@@ -36,6 +36,18 @@ const Toggle = styled.span`
   transition: all 0.3s ease;
 `;
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+`;
+
+const SmallSpan = styled.span`
+  font-size: 12px;
+  color: ${(props) => props.theme.textColor};
+`;
 export default function ThemeToggle() {
   const [theme, setTheme] = useRecoilState(themeState);
   const changeToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,11 +58,12 @@ export default function ThemeToggle() {
     }
   };
   return (
-    <div>
+    <Container>
       <CheckBox id="check" type="checkbox" onChange={changeToggle} hidden />
       <Label htmlFor="check">
         <Toggle></Toggle>
       </Label>
-    </div>
+      <SmallSpan>{theme}</SmallSpan>
+    </Container>
   );
 }
