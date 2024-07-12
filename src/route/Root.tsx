@@ -30,7 +30,7 @@ export default function Root() {
           <div></div>
         ) : (
           <Button>
-            <Link to="/">Home</Link>
+            <Link to={`${process.env.PUBLIC_URL}`}>Home</Link>
           </Button>
         )}
         <ThemeToggle />
