@@ -21,7 +21,7 @@ function App() {
         <RouterProvider router={router} />
       </HelmetProvider>
 
-      <ReactQueryDevtools initialIsOpen />
+      {/* <ReactQueryDevtools initialIsOpen /> */}
     </ThemeProvider>
   );
 }

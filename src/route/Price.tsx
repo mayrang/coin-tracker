@@ -80,6 +80,7 @@ export default function Price() {
   const { data: tickersData, isLoading: tickersLoading } = useQuery<CoinTickers>({
     queryKey: ["coin", "tickers", coinId],
     queryFn: () => fetchCoinTickers(coinId),
+    refetchInterval: 1000 * 60 * 60,
   });
   const price = tickersData?.quotes.USD;
   console.log("price", price);
