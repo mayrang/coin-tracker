@@ -83,7 +83,7 @@ export default function Coin() {
             </OverviewItem>
             <OverviewItem>
               <span>price:</span>
-              <span>{tickersData?.quotes.USD.price.toFixed(3)}</span>
+              <span>${tickersData?.quotes.USD.price.toFixed(3)}</span>
             </OverviewItem>
           </Overview>
           <Description>{infoData?.description}</Description>
