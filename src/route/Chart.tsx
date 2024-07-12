@@ -5,18 +5,25 @@ import { fetchCoinHistorical } from "../api/coin";
 import { Loading } from "../styles/style";
 import ApexCharts from "react-apexcharts";
 import { ICoinHistorical } from "../model/data";
+import { useRecoilValue } from "recoil";
+import { themeState } from "../atom/theme";
 
 export default function Chart() {
   const { coinId = "" } = useParams();
-  const { data = [], isLoading } = useQuery<ICoinHistorical[]>({
+  const theme = useRecoilValue(themeState);
+  const {
+    data = [],
+    isLoading,
+    error,
+  } = useQuery<ICoinHistorical[]>({
     queryKey: ["coin", "historical", coinId],
     queryFn: () => fetchCoinHistorical(coinId),
     refetchInterval: 1000 * 60 * 30,
   });
-  console.log(data.map((item) => Number(item.close)));
+  console.log(data, error);
   return (
     <div>
-      {isLoading || data.length === 0 ? (
+      {isLoading || error ? (
         <Loading>loading...</Loading>
       ) : (
         <ApexCharts
@@ -24,7 +31,7 @@ export default function Chart() {
           series={[
             {
               name: "Price",
-              data: data.map((item) => Number(item.close)),
+              data: data?.map((item) => Number(item.close)),
             },
           ]}
           options={{
@@ -42,7 +49,7 @@ export default function Chart() {
             fill: {
               type: "gradient",
               gradient: {
-                gradientToColors: ["#2ecc71"],
+                gradientToColors: theme === "light" ? ["#f1c40f"] : ["#2ecc71"],
                 stops: [0, 100],
               },
             },
@@ -58,7 +65,7 @@ export default function Chart() {
                 formatter: (value) => `$${value.toFixed(3)}`,
               },
             },
-            colors: ["#3498db"],
+            colors: theme === "light" ? ["#e74c3c"] : ["#3498db"],
             grid: { show: false },
             xaxis: {
               labels: {

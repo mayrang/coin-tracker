@@ -13,5 +13,9 @@ export async function fetchCoinTickers(coinId: string) {
 }
 
 export async function fetchCoinHistorical(coinId: string) {
-  return fetch(` https://ohlcv-api.nomadcoders.workers.dev?coinId=${coinId}&`).then((res) => res.json());
+  const response = await (await fetch(` https://ohlcv-api.nomadcoders.workers.dev?coinId=${coinId}&`)).json();
+  if (response?.error) {
+    throw new Error("No Data");
+  }
+  return response;
 }

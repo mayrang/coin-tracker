@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Header, Loading, Title } from "../styles/style";
+import { Container, Header, Loading, Overview, OverviewItem, Title } from "../styles/style";
 import { Link, Outlet, useLocation, useMatch, useParams } from "react-router-dom";
 
 import styled from "styled-components";
@@ -16,33 +16,10 @@ type IState = {
   name: string;
 };
 
-const Overview = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 12px 0px;
-  padding: 12px;
-  border-radius: 15px;
-  background-color: ${(props) => props.theme.itemBgColor};
-`;
-
 const Description = styled.p`
   font-size: 22px;
   padding: 12px 0;
   box-sizing: border-box;
-`;
-
-const OverviewItem = styled.div`
-  text-align: center;
-  span {
-    display: block;
-    line-height: 22px;
-  }
-  font-size: 18px;
-  color: ${(props) => props.theme.textColor};
-  span:first-child {
-    font-size: 14px;
-  }
 `;
 
 const Tab = styled.div`

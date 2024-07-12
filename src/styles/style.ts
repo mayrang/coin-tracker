@@ -26,3 +26,27 @@ export const Loading = styled.div`
   text-align: center;
   padding: 24px 0;
 `;
+
+export const OverviewItem = styled.div`
+  text-align: center;
+  span {
+    display: block;
+    line-height: 22px;
+  }
+  font-size: 18px;
+  color: ${(props) => props.theme.textColor};
+  span:first-child {
+    font-size: 14px;
+  }
+`;
+
+export const Overview = styled.div`
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  margin: 12px 0px;
+  padding: 12px;
+  border-radius: 15px;
+  background-color: ${(props) => props.theme.itemBgColor};
+`;
